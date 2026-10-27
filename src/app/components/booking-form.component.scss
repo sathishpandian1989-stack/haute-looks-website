@@ -1,0 +1,295 @@
+:host {
+  display: block;
+}
+
+form {
+  display: grid;
+  gap: 24px;
+}
+
+.note {
+  margin: 0;
+  font-size: 14px;
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  gap: 22px 20px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &--inner {
+    margin-top: 12px;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+
+  &--full {
+    grid-column: 1 / -1;
+  }
+}
+
+label,
+legend {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.opt {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+input[type='text'],
+input[type='tel'],
+input[type='email'],
+input[type='date'],
+select,
+textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  background: transparent;
+  border: 1px solid var(--gold-line);
+  border-radius: 0;
+  font-size: 16px; // prevents iOS zoom
+  transition: border-color 0.3s;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &::placeholder {
+    color: var(--color-gold);
+    opacity: 0.55;
+  }
+
+  &:hover {
+    border-color: var(--color-gold);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: inset 0 0 0 1px var(--color-gold);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--color-gold);
+    border-style: dashed;
+    border-width: 2px;
+  }
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(72%) sepia(55%) saturate(560%) hue-rotate(5deg) brightness(92%);
+  cursor: pointer;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+select option {
+  background: var(--color-black);
+  color: var(--color-gold);
+}
+
+.select {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  select {
+    padding-right: 44px;
+  }
+}
+
+fieldset {
+  border: 1px solid var(--gold-line);
+  padding: 18px 18px 20px;
+  margin: 0;
+
+  legend {
+    padding: 0 8px;
+  }
+
+  .hint {
+    margin-top: 4px;
+  }
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+
+  &--right {
+    text-align: right;
+  }
+}
+
+.err {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+
+  app-icon {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    margin-top: 2px;
+  }
+}
+
+.check {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.6;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+  }
+
+  &__box {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    border: 1px solid var(--color-gold);
+    transition: background 0.2s;
+
+    app-icon {
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+    }
+  }
+
+  input:checked + .check__box {
+    background: var(--color-gold);
+    color: var(--color-black);
+
+    app-icon {
+      opacity: 1;
+    }
+  }
+
+  input:focus-visible + .check__box {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  &--invalid .check__box {
+    border-width: 2px;
+    border-style: dashed;
+  }
+}
+
+.form-alert {
+  display: flex;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 2px solid var(--color-gold);
+  outline: none;
+
+  app-icon {
+    width: 22px;
+    height: 22px;
+    flex: none;
+  }
+
+  p {
+    margin: 4px 0 0;
+    font-size: 14px;
+  }
+}
+
+.submit {
+  min-height: 60px;
+}
+
+.spin {
+  display: inline-flex;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.success {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid var(--color-gold);
+  outline: none;
+  animation: rise 0.8s var(--ease-out) both;
+
+  p {
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}

@@ -1,0 +1,200 @@
+<!-- ============ HERO ============ -->
+<section class="hero" [class.is-in]="intro.done()" aria-labelledby="hero-h">
+  <div class="hero__media">
+    @for (s of slides; track s.base; let i = $index) {
+      <div class="hero__slide" [class.is-active]="active() === i">
+        <app-picture [img]="s" [eager]="i === 0" sizes="(min-width: 1024px) 62vw, 100vw" [decorative]="i !== 0" />
+      </div>
+    }
+    <div class="hero__scrim"></div>
+  </div>
+
+  <div class="hero__bars" aria-hidden="true"><span></span><span></span></div>
+
+  <div class="container hero__content">
+    <p class="hero__eyebrow eyebrow"><span class="hl">Hair · Skin · Makeup</span></p>
+    <h1 id="hero-h" class="hero__title">
+      <span class="line"><span>Your look.</span></span>
+      <span class="line"><span class="italic">Your moment.</span></span>
+      <span class="line"><span>Your signature.</span></span>
+    </h1>
+    <p class="hero__sub">
+      Professional hair, skin and makeup services designed around your style, your occasion and your confidence.
+    </p>
+    <div class="hero__ctas">
+      <a class="btn" [href]="wa" target="_blank" rel="noopener" (click)="track('whatsapp_click')">
+        <app-icon name="message-circle" /> Book on WhatsApp
+      </a>
+      <a class="btn btn--ghost" routerLink="/services">Explore our services</a>
+    </div>
+    <p class="hero__support micro">HAUTE LOOKS Unisex Salon &amp; Bridal Studio · Karaikudi</p>
+  </div>
+
+  <div class="hero__foot container">
+    <div class="hero__dots" role="group" aria-label="Choose hero image">
+      @for (s of slides; track s.base; let i = $index) {
+        <button
+          type="button"
+          [class.is-active]="active() === i"
+          [attr.aria-pressed]="active() === i"
+          [attr.aria-label]="'Show image ' + (i + 1)"
+          (click)="goTo(i)"
+        >
+          <span>0{{ i + 1 }}</span>
+        </button>
+      }
+    </div>
+    <a class="hero__scroll" routerLink="/" fragment="signature" aria-label="Scroll to services">
+      <span class="micro">Scroll</span><span class="hero__scroll-line"></span>
+    </a>
+  </div>
+</section>
+
+<app-marquee />
+
+<!-- ============ INTRO / PROMISES ============ -->
+<section class="section intro" aria-labelledby="intro-h">
+  <div class="container">
+    <div class="intro__top">
+      <p class="eyebrow">Welcome to HAUTE LOOKS</p>
+      <h2 id="intro-h" class="intro__statement" appReveal>
+        A unisex salon &amp; bridal studio in <span class="italic">Karaikudi</span>, where every look begins with
+        <span class="italic">listening</span>.
+      </h2>
+    </div>
+    <ul class="promises">
+      @for (p of promises; track p.title; let i = $index) {
+        <li appReveal [revealDelay]="i * 100">
+          <span class="icon-ring"><app-icon [name]="p.icon" /></span>
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.text }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SIGNATURE SERVICES ============ -->
+<section id="signature" class="section section--rule" aria-labelledby="svc-h">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Signature services</p>
+        <h2 id="svc-h" class="display-2" appReveal>Hair, skin &amp; makeup — <span class="italic">crafted for you</span></h2>
+      </div>
+      <div appReveal [revealDelay]="150">
+        <p>{{ site.tagline }}. Tap any service to ask about prices and availability on WhatsApp.</p>
+        <a class="link-underline" routerLink="/services">View all services <app-icon name="arrow-up-right" /></a>
+      </div>
+    </div>
+    <app-service-bento />
+  </div>
+</section>
+
+<!-- ============ PAINS → ANSWERS ============ -->
+<section class="section section--rule" aria-labelledby="why-h">
+  <div class="container why">
+    <div class="why__head">
+      <p class="eyebrow">Why guests choose us</p>
+      <h2 id="why-h" class="display-2" appReveal>Your concern.<br /><span class="italic">Our care.</span></h2>
+    </div>
+    <ol class="why__list">
+      @for (p of pains; track p.q; let i = $index) {
+        <li appReveal [revealDelay]="i * 70">
+          <span class="why__n">0{{ i + 1 }}</span>
+          <span class="why__q">{{ p.q }}</span>
+          <span class="why__a">{{ p.a }}</span>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<!-- ============ BRIDAL FEATURE ============ -->
+<section class="bridal" aria-labelledby="bridal-h">
+  <div class="bridal__media" appReveal="mask">
+    <div class="bridal__img" appParallax="0.08"><app-picture [img]="images.bridal" sizes="(min-width: 1024px) 50vw, 100vw" /></div>
+  </div>
+  <div class="bridal__text">
+    <p class="eyebrow">Bridal Studio</p>
+    <h2 id="bridal-h" class="display-2" appReveal>Your bridal look, <span class="italic">planned with care</span></h2>
+    <p class="lead" appReveal [revealDelay]="120">
+      Bridal makeup, bridal hairstyling and packages shaped around your saree, jewellery, ceremony and schedule. Share your
+      date and references — we’ll plan the rest with you.
+    </p>
+    <ul class="ticks" appReveal [revealDelay]="200">
+      <li><app-icon name="check" /> Photo-ready bridal makeup</li>
+      <li><app-icon name="check" /> Bridal hairstyling with flowers &amp; accessories</li>
+      <li><app-icon name="check" /> Packages tailored to your functions</li>
+    </ul>
+    <div class="bridal__ctas" appReveal [revealDelay]="260">
+      <a class="btn" routerLink="/bridal-studio">Discover bridal</a>
+      <a class="link-underline" routerLink="/contact" fragment="enquiry">Share your date <app-icon name="arrow-up-right" /></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANSFORMATIONS ============ -->
+<section class="section" aria-labelledby="ba-h">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Transformations</p>
+        <h2 id="ba-h" class="display-2" appReveal>Slide to see the <span class="italic">transformation</span></h2>
+      </div>
+      <div appReveal [revealDelay]="150">
+        <p>
+          Explore selected looks and styling transformations from our studio. Drag the handle — or use the arrow keys — to
+          compare the before and after.
+        </p>
+        <a class="link-underline" routerLink="/gallery">Open the gallery <app-icon name="arrow-up-right" /></a>
+      </div>
+    </div>
+    <div class="ba-grid">
+      @for (t of transformations; track t.title; let i = $index) {
+        <div appReveal [revealDelay]="i * 120"><app-before-after [item]="t" /></div>
+      }
+    </div>
+    <p class="notice ba-note">
+      <app-icon name="alert-circle" />
+      <span>Demo previews — real client before/after photos will be published here with each client’s permission.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ ABOUT TEASER ============ -->
+<section class="section section--rule about" aria-labelledby="about-h">
+  <div class="container about__grid">
+    <div class="about__media" appReveal="mask">
+      <div class="about__img" appParallax="0.06"><app-picture [img]="images.team" sizes="(min-width: 1024px) 40vw, 100vw" /></div>
+      <span class="about__frame" aria-hidden="true"></span>
+    </div>
+    <div class="about__text">
+      <p class="eyebrow">The people behind the look</p>
+      <h2 id="about-h" class="display-2" appReveal>A personal approach to <span class="italic">every look.</span></h2>
+      <p class="lead" appReveal [revealDelay]="120">
+        At HAUTE LOOKS, our focus is helping every guest feel comfortable, understood and confident in their look. From
+        everyday hair care to special-occasion styling, we begin by listening to what you want and discussing the service
+        that suits your needs.
+      </p>
+      <a class="link-underline" routerLink="/about" appReveal [revealDelay]="200">Our story <app-icon name="arrow-up-right" /></a>
+    </div>
+  </div>
+</section>
+
+<app-reviews />
+
+<!-- ============ FAQ ============ -->
+<section class="section section--rule" aria-labelledby="faq-h">
+  <div class="container faq-wrap">
+    <div>
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq-h" class="display-2" appReveal>Good to <span class="italic">know</span></h2>
+      <p class="faq-wrap__p">Can’t find your answer? Message us on WhatsApp — we’re happy to help.</p>
+      <a class="link-underline" routerLink="/contact">All contact options <app-icon name="arrow-up-right" /></a>
+    </div>
+    <app-faq [items]="faqs" />
+  </div>
+</section>
+
+<app-cta-band />

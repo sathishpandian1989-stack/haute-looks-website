@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sathishpandian1989-stack.github.io/haute-looks-website/sitemap.xml

@@ -1,0 +1,252 @@
+@if (state() === 'success') {
+  <div class="success" tabindex="-1" role="status" aria-live="polite">
+    <span class="icon-ring"><app-icon name="check" /></span>
+    <h3 class="display-3">Thank you — your enquiry is saved.</h3>
+    <p>
+      Your reference is <strong>{{ leadId() }}</strong>. This is an enquiry, not a confirmed booking: our team will contact you
+      on WhatsApp to confirm availability.
+    </p>
+    <div class="success__actions">
+      <a class="btn" [href]="whatsappFollowUp()" target="_blank" rel="noopener">
+        <app-icon name="message-circle" /> Message us now
+      </a>
+      <button class="btn btn--ghost" type="button" (click)="reset()">Send another enquiry</button>
+    </div>
+  </div>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" (focusin)="onFirstInteraction()" novalidate aria-describedby="form-note">
+    <p id="form-note" class="note">
+      Fields marked <span aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required. Sending this
+      form is an enquiry — your appointment is confirmed only when the salon replies.
+    </p>
+
+    @if (!configured) {
+      <div class="notice">
+        <app-icon name="alert-circle" />
+        <span>Online enquiries are being set up. Until then, please call or WhatsApp us — the form will not send.</span>
+      </div>
+    }
+
+    <!-- Honeypot: hidden from people, tempting for bots -->
+    <div class="hp" aria-hidden="true">
+      <label for="f-website">Website</label>
+      <input id="f-website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="grid">
+      <div class="field field--full">
+        <label for="f-name">Full name <span aria-hidden="true">*</span></label>
+        <input
+          id="f-name"
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          maxlength="80"
+          [attr.aria-invalid]="show('name')"
+          [attr.aria-describedby]="show('name') ? 'e-name' : null"
+        />
+        @if (show('name')) {
+          <p class="err" id="e-name"><app-icon name="alert-circle" />{{ error('name') }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="f-wa">WhatsApp number <span aria-hidden="true">*</span></label>
+        <input
+          id="f-wa"
+          type="tel"
+          inputmode="tel"
+          formControlName="whatsapp"
+          autocomplete="tel"
+          placeholder="98765 43210"
+          maxlength="20"
+          [attr.aria-invalid]="show('whatsapp')"
+          [attr.aria-describedby]="show('whatsapp') ? 'e-wa' : 'h-wa'"
+        />
+        @if (show('whatsapp')) {
+          <p class="err" id="e-wa"><app-icon name="alert-circle" />{{ error('whatsapp') }}</p>
+        } @else {
+          <p class="hint" id="h-wa">
+            @if (waPreview()) {
+              We'll reply on <strong>{{ waPreview() }}</strong>
+            } @else {
+              Indian mobile number, +91 optional
+            }
+          </p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="f-service">Service <span aria-hidden="true">*</span></label>
+        <div class="select">
+          <select
+            id="f-service"
+            formControlName="service"
+            [attr.aria-invalid]="show('service')"
+            [attr.aria-describedby]="show('service') ? 'e-service' : null"
+          >
+            <option value="" disabled>Choose a service</option>
+            @for (s of services; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+        @if (show('service')) {
+          <p class="err" id="e-service"><app-icon name="alert-circle" />{{ error('service') }}</p>
+        }
+      </div>
+
+      <div class="field field--full">
+        <label class="check">
+          <input type="checkbox" formControlName="sameNumber" />
+          <span class="check__box" aria-hidden="true"><app-icon name="check" [stroke]="2.5" /></span>
+          <span>I can also be called on this WhatsApp number</span>
+        </label>
+      </div>
+
+      @if (!sameNumber()) {
+        <div class="field field--full">
+          <label for="f-phone">Phone number for calls <span aria-hidden="true">*</span></label>
+          <input
+            id="f-phone"
+            type="tel"
+            inputmode="tel"
+            formControlName="phone"
+            autocomplete="tel"
+            maxlength="20"
+            [attr.aria-invalid]="show('phone')"
+            [attr.aria-describedby]="show('phone') ? 'e-phone' : null"
+          />
+          @if (show('phone')) {
+            <p class="err" id="e-phone"><app-icon name="alert-circle" />{{ error('phone') }}</p>
+          }
+        </div>
+      }
+
+      <div class="field">
+        <label for="f-date">Preferred date <span class="opt">(optional)</span></label>
+        <input
+          id="f-date"
+          type="date"
+          formControlName="preferredDate"
+          [min]="minDate"
+          [attr.aria-invalid]="show('preferredDate')"
+          [attr.aria-describedby]="show('preferredDate') ? 'e-date' : null"
+        />
+        @if (show('preferredDate')) {
+          <p class="err" id="e-date"><app-icon name="alert-circle" />{{ error('preferredDate') }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="f-time">Preferred time <span class="opt">(optional)</span></label>
+        <div class="select">
+          <select id="f-time" formControlName="preferredTime">
+            <option value="">No preference</option>
+            @for (t of times; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="field field--full">
+        <label for="f-email">Email <span class="opt">(optional)</span></label>
+        <input
+          id="f-email"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          maxlength="120"
+          [attr.aria-invalid]="show('email')"
+          [attr.aria-describedby]="show('email') ? 'e-email' : null"
+        />
+        @if (show('email')) {
+          <p class="err" id="e-email"><app-icon name="alert-circle" />{{ error('email') }}</p>
+        }
+      </div>
+
+      <fieldset class="field field--full optional">
+        <legend>About you <span class="opt">(optional)</span></legend>
+        <p class="hint">Only used to recommend suitable services. Choose “Prefer not to say” or skip.</p>
+        <div class="grid grid--inner">
+          <div class="field">
+            <label for="f-gender">Gender</label>
+            <div class="select">
+              <select id="f-gender" formControlName="gender">
+                <option value="">—</option>
+                @for (g of genders; track g) {
+                  <option [value]="g">{{ g }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-age">Age range</label>
+            <div class="select">
+              <select id="f-age" formControlName="ageRange">
+                <option value="">—</option>
+                @for (a of ages; track a) {
+                  <option [value]="a">{{ a }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="field field--full">
+        <label for="f-msg">Message <span class="opt">(optional)</span></label>
+        <textarea
+          id="f-msg"
+          rows="4"
+          formControlName="message"
+          maxlength="1000"
+          placeholder="Tell us about the look, occasion or event date you have in mind."
+          [attr.aria-invalid]="show('message')"
+          aria-describedby="h-msg"
+        ></textarea>
+        <p class="hint hint--right" id="h-msg">{{ messageLength() }}/1000</p>
+      </div>
+
+      <div class="field field--full">
+        <label class="check" [class.check--invalid]="show('consent')">
+          <input
+            type="checkbox"
+            formControlName="consent"
+            [attr.aria-invalid]="show('consent')"
+            [attr.aria-describedby]="show('consent') ? 'e-consent' : null"
+          />
+          <span class="check__box" aria-hidden="true"><app-icon name="check" [stroke]="2.5" /></span>
+          <span
+            >I agree to be contacted by HAUTE LOOKS by WhatsApp, phone or email about this enquiry, and I have read the
+            <a routerLink="/privacy-policy">privacy policy</a>. <span aria-hidden="true">*</span></span
+          >
+        </label>
+        @if (show('consent')) {
+          <p class="err" id="e-consent"><app-icon name="alert-circle" />{{ error('consent') }}</p>
+        }
+      </div>
+    </div>
+
+    @if (state() === 'error') {
+      <div class="form-alert" role="alert" tabindex="-1">
+        <app-icon name="alert-circle" />
+        <div>
+          <strong>Your enquiry was not sent.</strong>
+          <p>{{ errorMessage() }}</p>
+        </div>
+      </div>
+    }
+
+    <button class="btn btn--block submit" type="submit" [disabled]="state() === 'submitting'" [attr.aria-busy]="state() === 'submitting'">
+      @if (state() === 'submitting') {
+        <span class="spin"><app-icon name="loader" /></span> Sending securely…
+      } @else if (state() === 'error') {
+        Try again <app-icon name="arrow-right" />
+      } @else {
+        Send enquiry <app-icon name="arrow-right" />
+      }
+    </button>
+  </form>
+}

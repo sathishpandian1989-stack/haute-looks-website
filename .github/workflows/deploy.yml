@@ -1,0 +1,65 @@
+name: Build & deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Public runtime config comes from repository *variables* (Settings → Secrets and variables → Actions → Variables)
+      - name: Write environment
+        env:
+          APPS_SCRIPT_URL: ${{ vars.APPS_SCRIPT_URL }}
+          GA4_ID: ${{ vars.GA4_ID }}
+        run: |
+          cat > src/environments/environment.ts <<EOT
+          export const environment = {
+            appsScriptUrl: '${APPS_SCRIPT_URL}',
+            ga4Id: '${GA4_ID}',
+          };
+          EOT
+
+      # BASE_HREF variable: "/" for a custom domain, otherwise "/<repo-name>/"
+      - name: Build
+        run: npx ng build --base-href "${{ vars.BASE_HREF || format('/{0}/', github.event.repository.name) }}"
+
+      - name: SPA fallback for unknown routes
+        run: |
+          cd dist/haute-looks/browser
+          cp index.csr.html 404.html
+          touch .nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/haute-looks/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
