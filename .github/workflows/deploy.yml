@@ -27,18 +27,17 @@ jobs:
 
       - run: npm ci
 
-      # Public runtime config comes from repository *variables* (Settings → Secrets and variables → Actions → Variables)
-      - name: Write environment
+      # Optional overrides from repository *variables* (Settings → Secrets and variables → Actions → Variables).
+      # When a variable is not set, the value committed in src/environments/environment.ts is kept.
+      - name: Apply environment overrides
         env:
           APPS_SCRIPT_URL: ${{ vars.APPS_SCRIPT_URL }}
           GA4_ID: ${{ vars.GA4_ID }}
         run: |
-          cat > src/environments/environment.ts <<EOT
-          export const environment = {
-            appsScriptUrl: '${APPS_SCRIPT_URL}',
-            ga4Id: '${GA4_ID}',
-          };
-          EOT
+          f=src/environments/environment.ts
+          if [ -n "$APPS_SCRIPT_URL" ]; then sed -i "s|appsScriptUrl: '[^']*'|appsScriptUrl: '${APPS_SCRIPT_URL}'|" $f; fi
+          if [ -n "$GA4_ID" ]; then sed -i "s|ga4Id: '[^']*'|ga4Id: '${GA4_ID}'|" $f; fi
+          cat $f
 
       # BASE_HREF variable: "/" for a custom domain, otherwise "/<repo-name>/"
       - name: Build

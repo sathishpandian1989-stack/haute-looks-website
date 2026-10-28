@@ -67,7 +67,7 @@ npm run build        # static site in dist/haute-looks/browser
    - `SPREADSHEET_ID`: optional, only if the script is *not* created from inside the sheet
 4. **Run `setup()` once.** Pick `setup` in the function dropdown, click ▶ Run and approve the permissions. This creates the **Leads** tab with headers, a Status dropdown and a hidden Submission ID column.
 5. **Deploy.** Go to **Deploy → New deployment → Web app**, choose *Execute as: **Me*** and *Who has access: **Anyone***, then deploy and copy the **`/exec` URL**.
-6. **Connect the website.** In GitHub, go to *Settings → Secrets and variables → Actions → **Variables*** and add `APPS_SCRIPT_URL` = the `/exec` URL. Then re-run the deploy workflow.
+6. **Connect the website.** The `/exec` URL is set in `src/environments/environment.ts` (it is a public endpoint, not a secret). To switch to a new deployment without editing code, add a GitHub repository **Variable** `APPS_SCRIPT_URL`; it overrides the file at build time.
 
 > After any change to `Code.gs`, use **Deploy → Manage deployments → Edit → New version**. This keeps the same URL.
 
@@ -90,7 +90,7 @@ Form Page · Status · Follow-up Notes · Notification Status · Submission ID (
 1. Push this project to the `main` branch of the GitHub repo.
 2. In the repo, set *Settings → Pages → Source: **GitHub Actions***.
 3. *(Optional)* Add these repository **Variables**:
-   - `APPS_SCRIPT_URL`: the Apps Script `/exec` URL (enables the form)
+   - `APPS_SCRIPT_URL`: overrides the Apps Script `/exec` URL in `environment.ts`
    - `GA4_ID`: e.g. `G-XXXXXXX` (enables analytics with a consent banner)
    - `BASE_HREF`: `/` when using a custom domain (default is `/<repo-name>/`)
 4. Each push to `main` builds and deploys the site to `https://<user>.github.io/<repo>/`.

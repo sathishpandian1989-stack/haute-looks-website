@@ -7,6 +7,6 @@
  * APPS_SCRIPT_URL and GA4_ID at build time, so you normally don't edit this file.
  */
 export const environment = {
-  appsScriptUrl: '',
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwRDlUH-ekTHTV8q5L1X5UoLQQPQpyTmkcsIOPJfoOBPa4g5Rw95SewAZO6kbxlLYxA/exec',
   ga4Id: '',
 };
