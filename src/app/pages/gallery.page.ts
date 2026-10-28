@@ -75,7 +75,7 @@ import { SITE } from '../core/site.config';
         <p class="notice note">
           <app-icon name="alert-circle" />
           <span
-            >These are demo previews of the comparison tool. Genuine client before/after pairs will be published here only with
+            >Sample transformations shown for preview. They will be replaced with HAUTE LOOKS client photos, published only with
             each client’s written permission.</span
           >
         </p>
@@ -223,14 +223,21 @@ import { SITE } from '../core/site.config';
       margin-top: 40px;
     }
     .ba-grid {
-      display: grid;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 28px;
     }
+    .ba-grid > div {
+      flex: 0 0 100%;
+      min-width: 0;
+    }
     @media (min-width: 768px) {
-      .ba-grid {
-        grid-template-columns: 1fr 1fr;
+      .ba-grid > div {
+        flex-basis: calc(50% - 14px);
       }
     }
+
     .note {
       margin-top: 32px;
     }

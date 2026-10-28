@@ -29,14 +29,14 @@ let uid = 0;
         <div class="ba__img ba__img--after">
           <app-picture [img]="item().after" sizes="(min-width: 1024px) 40vw, 100vw" [decorative]="false" />
         </div>
-        <div class="ba__img ba__img--before" [class.is-demo]="item().demo" aria-hidden="true">
+        <div class="ba__img ba__img--before" aria-hidden="true">
           <app-picture [img]="item().before" sizes="(min-width: 1024px) 40vw, 100vw" [decorative]="true" />
         </div>
 
         <span class="ba__tag ba__tag--before">Before</span>
         <span class="ba__tag ba__tag--after">After</span>
         @if (item().demo) {
-          <span class="ba__demo">Demo preview</span>
+          <span class="ba__demo">Sample</span>
         }
 
         <div class="ba__handle" aria-hidden="true">
@@ -88,10 +88,6 @@ let uid = 0;
     }
     .ba__img--before {
       clip-path: inset(0 calc(100% - var(--pos)) 0 0);
-    }
-    /* Demo only: simulated "before" so the interaction can be reviewed until real client pairs arrive */
-    .ba__img--before.is-demo ::ng-deep img {
-      filter: grayscale(1) brightness(0.55) contrast(0.85);
     }
     .ba__handle {
       position: absolute;
@@ -161,8 +157,7 @@ let uid = 0;
     .ba__demo {
       top: auto;
       bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 16px;
       white-space: nowrap;
     }
     figcaption {

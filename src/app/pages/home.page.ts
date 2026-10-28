@@ -51,7 +51,7 @@ export class HomePage {
   protected readonly five = [1, 2, 3, 4, 5];
   protected readonly promises = PROMISES;
   protected readonly faqs = FAQS.slice(0, 5);
-  protected readonly transformations = TRANSFORMATIONS.slice(0, 2);
+  protected readonly transformations = TRANSFORMATIONS.slice(0, 3);
   protected readonly pains = [
     { q: 'Not sure which cut suits you?', a: 'A style chosen for you — not just a trend.' },
     { q: 'Frizzy, flat or hard-to-manage hair?', a: 'Hair that looks polished and is easier to manage.' },

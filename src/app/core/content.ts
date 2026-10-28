@@ -201,10 +201,11 @@ export interface Transformation {
 }
 
 export const TRANSFORMATIONS: Transformation[] = [
-  { title: 'Restyle & cut', label: 'Haircut', before: IMAGES.haircut, after: IMAGES.haircut, demo: true },
-  { title: 'Colour & gloss', label: 'Hair colour', before: IMAGES.colour, after: IMAGES.colour, demo: true },
-  { title: 'Smooth finish', label: 'Hair treatment', before: IMAGES.smoothening, after: IMAGES.smoothening, demo: true },
-  { title: 'Bridal glow', label: 'Bridal makeup', before: IMAGES.bridal, after: IMAGES.bridal, demo: true },
+  // Sample pairs for client approval only (reference images) — replace with consented HAUTE LOOKS client photos.
+  { title: 'Big-day ready', label: 'Groom styling', before: { base: 'images/ba-groom-before', alt: 'Groom before styling, in a plain white shirt' }, after: { base: 'images/ba-groom-after', alt: 'Groom after hair styling and grooming, in a traditional silk veshti and shirt' }, demo: true },
+  { title: 'Frizz to flow', label: 'Smoothening', before: { base: 'images/ba-wave-blowout-before', alt: 'Long wavy, frizzy hair before treatment' }, after: { base: 'images/ba-wave-blowout-after', alt: 'Long hair after smoothening and a bouncy blow-dry finish' }, demo: true },
+  { title: 'Sharp & styled', label: 'Haircut & beard', before: { base: 'images/ba-beard-style-before', alt: 'Man with overgrown curly hair before his haircut' }, after: { base: 'images/ba-beard-style-after', alt: 'Same man after a fade haircut and beard shaping' }, demo: true },
+  { title: 'Clean taper', label: "Men's haircut", before: { base: 'images/ba-mens-cut-before', alt: 'Back of a man’s head with long, untidy hair before a haircut' }, after: { base: 'images/ba-mens-cut-after', alt: 'Same man after a neat taper haircut' }, demo: true },
 ];
 
 /**
