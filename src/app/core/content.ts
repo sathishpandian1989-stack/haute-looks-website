@@ -202,6 +202,7 @@ export interface Transformation {
 
 export const TRANSFORMATIONS: Transformation[] = [
   // Sample pairs for client approval only (reference images) — replace with consented HAUTE LOOKS client photos.
+  { title: 'Bridal glow', label: 'Bridal makeup', before: { base: 'images/ba-bridal-before', alt: 'Bride before makeup, bare-faced in a white robe' }, after: { base: 'images/ba-bridal-after', alt: 'Same bride after bridal makeup and hairstyling, in a maroon silk saree with temple jewellery' }, demo: true },
   { title: 'Big-day ready', label: 'Groom styling', before: { base: 'images/ba-groom-before', alt: 'Groom before styling, in a plain white shirt' }, after: { base: 'images/ba-groom-after', alt: 'Groom after hair styling and grooming, in a traditional silk veshti and shirt' }, demo: true },
   { title: 'Frizz to flow', label: 'Smoothening', before: { base: 'images/ba-wave-blowout-before', alt: 'Long wavy, frizzy hair before treatment' }, after: { base: 'images/ba-wave-blowout-after', alt: 'Long hair after smoothening and a bouncy blow-dry finish' }, demo: true },
   { title: 'Sharp & styled', label: 'Haircut & beard', before: { base: 'images/ba-beard-style-before', alt: 'Man with overgrown curly hair before his haircut' }, after: { base: 'images/ba-beard-style-after', alt: 'Same man after a fade haircut and beard shaping' }, demo: true },
