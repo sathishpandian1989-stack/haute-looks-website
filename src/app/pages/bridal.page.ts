@@ -99,7 +99,7 @@ import { serviceEnquiry } from '../core/site.config';
     </section>
   `,
   styles: `
-    .bridal-hero .page-hero__media img {
+    .bridal-hero .page-hero__media ::ng-deep img {
       object-position: center 20%;
     }
     .hero-ctas {
@@ -153,7 +153,7 @@ import { serviceEnquiry } from '../core/site.config';
       position: absolute;
       inset: -6% 0;
     }
-    .steps-img img {
+    .steps-img ::ng-deep img {
       width: 100%;
       height: 100%;
       object-fit: cover;

@@ -107,13 +107,13 @@ import { AnalyticsService } from '../core/analytics.service';
       inset: 0;
       z-index: -1;
     }
-    .card__media img {
+    .card__media ::ng-deep img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 1.4s var(--ease-out);
     }
-    .card--wide .card__media img {
+    .card--wide .card__media ::ng-deep img {
       object-position: center 25%;
     }
     .card__media::after {
@@ -122,8 +122,8 @@ import { AnalyticsService } from '../core/analytics.service';
       inset: 0;
       background: linear-gradient(0deg, rgba(23, 23, 23, 0.92) 0%, rgba(23, 23, 23, 0.25) 55%, rgba(23, 23, 23, 0.1) 100%);
     }
-    .card:hover .card__media img,
-    .card:focus-visible .card__media img {
+    .card:hover .card__media ::ng-deep img,
+    .card:focus-visible .card__media ::ng-deep img {
       transform: scale(1.05);
     }
     .card__num {

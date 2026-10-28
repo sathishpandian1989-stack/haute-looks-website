@@ -42,6 +42,12 @@ import { SITE, fullAddress } from '../core/site.config';
               everyday hair care to special-occasion styling, we begin by listening to what you want and discussing the
               service that suits your needs.
             </p>
+            @if (leader.name) {
+              <p>
+                HAUTE LOOKS was founded by <strong>{{ leader.name }}</strong>, who leads the studio with one simple belief:
+                every guest deserves a look that feels personal, polished and truly their own.
+              </p>
+            }
             <p>
               We are a unisex salon and bridal studio in {{ site.city }}, offering hair, skin and makeup services for women and
               men — and bridal looks planned around each bride’s day. Our promise is simple: {{ site.tagline.toLowerCase() }},
@@ -123,7 +129,7 @@ import { SITE, fullAddress } from '../core/site.config';
       position: absolute;
       inset: -6% 0;
     }
-    .story__img img {
+    .story__img ::ng-deep img {
       width: 100%;
       height: 100%;
       object-fit: cover;

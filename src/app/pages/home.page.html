@@ -168,6 +168,12 @@
     <div class="about__media" appReveal="mask">
       <div class="about__img" appParallax="0.06"><app-picture [img]="images.team" sizes="(min-width: 1024px) 40vw, 100vw" /></div>
       <span class="about__frame" aria-hidden="true"></span>
+      @if (site.leader.name) {
+        <p class="about__cap">
+          <span class="about__name">{{ site.leader.name }}</span>
+          <span class="micro">{{ site.leader.role }}</span>
+        </p>
+      }
     </div>
     <div class="about__text">
       <p class="eyebrow">The people behind the look</p>

@@ -80,7 +80,7 @@ let uid = 0;
       position: absolute;
       inset: 0;
     }
-    .ba__img img {
+    .ba__img ::ng-deep img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -90,7 +90,7 @@ let uid = 0;
       clip-path: inset(0 calc(100% - var(--pos)) 0 0);
     }
     /* Demo only: simulated "before" so the interaction can be reviewed until real client pairs arrive */
-    .ba__img--before.is-demo img {
+    .ba__img--before.is-demo ::ng-deep img {
       filter: grayscale(1) brightness(0.55) contrast(0.85);
     }
     .ba__handle {

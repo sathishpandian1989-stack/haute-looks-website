@@ -25,7 +25,7 @@ export const IMAGES = {
   colour: { base: 'images/hair-colour', alt: 'Glossy caramel and honey toned hair colour with soft waves' },
   smoothening: { base: 'images/hair-smoothening', alt: 'Long, sleek and smooth dark hair being finished with a straightener' },
   bridal: { base: 'images/bridal', alt: 'Bride in a red embroidered saree with bridal makeup, floral bun and kundan jewellery' },
-  team: { base: 'images/team-lead', alt: 'Portrait of the HAUTE LOOKS lead stylist in the salon' },
+  team: { base: 'images/team-lead', alt: 'Karthik, founder and owner of HAUTE LOOKS, in the salon' },
 } satisfies Record<string, Img>;
 
 export const FEATURED: FeaturedService[] = [

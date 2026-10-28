@@ -62,10 +62,10 @@ export const SITE = {
 
   whatsappGreeting: "Hello HAUTE LOOKS, I'd like to enquire about an appointment.",
 
-  /** Leadership: name/bio only once provided and approved by the owner. */
+  /** Leadership shown on Home + About. Add a verified bio/experience only when the owner approves it. */
   leader: {
-    name: '',
-    role: 'Founder & Lead Stylist',
+    name: 'Karthik',
+    role: 'Founder & Owner',
     portrait: 'images/team-lead',
   },
 } as const;

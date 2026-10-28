@@ -70,6 +70,7 @@ export class SeoService {
         },
       ],
       sameAs: [SITE.instagram.url],
+      ...(SITE.leader.name ? { founder: { '@type': 'Person', name: SITE.leader.name } } : {}),
       description: `${SITE.tagline}. Hair, skin and makeup services at ${fullAddress()}.`,
     };
     const script = this.doc.createElement('script');

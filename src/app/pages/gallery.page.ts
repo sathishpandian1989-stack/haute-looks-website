@@ -121,13 +121,13 @@ import { SITE } from '../core/site.config';
       cursor: zoom-in;
       overflow: hidden;
     }
-    .tile img {
+    .tile ::ng-deep img {
       width: 100%;
       height: auto;
       transition: transform 1.2s var(--ease-out);
     }
-    .tile:hover img,
-    .tile:focus-visible img {
+    .tile:hover ::ng-deep img,
+    .tile:focus-visible ::ng-deep img {
       transform: scale(1.04);
     }
     .tile__cap {
@@ -191,7 +191,7 @@ import { SITE } from '../core/site.config';
     .lb figure {
       margin: 0;
     }
-    .lb img {
+    .lb ::ng-deep img {
       max-height: 80vh;
       width: auto;
       margin: 0 auto;

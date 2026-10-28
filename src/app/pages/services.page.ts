@@ -130,7 +130,7 @@ import { AnalyticsService } from '../core/analytics.service';
       position: absolute;
       inset: -6% 0;
     }
-    .cat__img img {
+    .cat__img ::ng-deep img {
       width: 100%;
       height: 100%;
       object-fit: cover;
