@@ -21,6 +21,17 @@
     <p class="hero__sub">
       Professional hair, skin and makeup services designed around your style, your occasion and your confidence.
     </p>
+    <a class="hero__proof" routerLink="/" fragment="reviews"
+       [attr.aria-label]="'Rated ' + rating.score + ' out of 5 from ' + rating.count + ' Google reviews. See reviews'">
+      <span class="hero__stars" aria-hidden="true">
+        @for (s of five; track s) {
+          <app-icon name="star" />
+        }
+      </span>
+      <span class="hero__proof-score">{{ rating.score }}</span>
+      <span class="hero__proof-text">· {{ rating.count }} Google reviews</span>
+      <span class="hero__proof-arrow" aria-hidden="true"><app-icon name="arrow-right" /></span>
+    </a>
     <div class="hero__ctas">
       <a class="btn" [href]="wa" target="_blank" rel="noopener" (click)="track('whatsapp_click')">
         <app-icon name="message-circle" /> Book on WhatsApp
@@ -44,6 +55,25 @@
         </button>
       }
     </div>
+    <a class="hero__quote" routerLink="/" fragment="reviews" aria-label="Read our Google reviews"
+       (mouseenter)="pauseQuotes(true)" (mouseleave)="pauseQuotes(false)" (focus)="pauseQuotes(true)" (blur)="pauseQuotes(false)">
+      <span class="hero__quote-head">
+        <span class="hero__stars" aria-hidden="true">
+          @for (s of five; track s) {
+            <app-icon name="star" />
+          }
+        </span>
+        <span class="micro">Google review</span>
+      </span>
+      <span class="hero__quote-stage" aria-live="off">
+        @for (q of quotes; track q.author; let i = $index) {
+          <span class="hero__quote-item" [class.is-active]="quote() === i" [attr.aria-hidden]="quote() !== i">
+            <span class="hero__quote-text">“{{ q.highlight }}…”</span>
+            <span class="hero__quote-who">— {{ q.author }} · {{ q.service }}</span>
+          </span>
+        }
+      </span>
+    </a>
     <a class="hero__scroll" routerLink="/" fragment="signature" aria-label="Scroll to services">
       <span class="micro">Scroll</span><span class="hero__scroll-line"></span>
     </a>
@@ -90,6 +120,8 @@
     <app-service-bento />
   </div>
 </section>
+
+<app-reviews />
 
 <!-- ============ PAINS → ANSWERS ============ -->
 <section class="section section--rule" aria-labelledby="why-h">
@@ -188,7 +220,6 @@
   </div>
 </section>
 
-<app-reviews />
 
 <!-- ============ FAQ ============ -->
 <section class="section section--rule" aria-labelledby="faq-h">

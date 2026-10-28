@@ -218,6 +218,8 @@ export interface Review {
   author: string;
   service: string;
   text: string;
+  /** a verbatim excerpt from `text`, used in the hero */
+  highlight: string;
   truncated?: boolean;
 }
 
@@ -225,32 +227,38 @@ export const REVIEWS: Review[] = [
   {
     author: 'Siva dhanam',
     service: 'Bridal makeup',
+    highlight: 'Exceptional bridal makeup service by Devi! Every detail was done with perfection',
     text: 'Exceptional bridal makeup service by Devi! Every detail was done with perfection, and the products used were of excellent quality. I looked radiant from the ceremony until the reception. Highly recommend to every bride!',
   },
   {
     author: 'Nandhini Priya',
     service: 'Keratin treatment',
+    highlight: 'They truly offer some of the best hair service in karaikudi.',
     text: 'I had an excellent experience here! This is my second time keratin treatment here. They truly offer some of the best hair service in karaikudi. The quality, professionalism , and consistency are outstanding.\n\nA special mention to Mr Karthik, who is absolutely exceptional. He is deeply knowledgeable in hair care.\n\nThe salon maintains great hygiene, uses premium products, and the staff are friendly and attentive. Overall, this place is a perfect combination of expertise and comfort. Highly recommended for anyone looking for hair treatments and service in karaikudi',
   },
   {
     author: 'Shankar Riyas',
     service: 'Layer cut',
+    highlight: "One of the best layer cuts I've ever had.",
     text: "One of the best layer cuts I've ever had. The layers are blended perfectly, and my hair feels lighter while keeping the length. Great service and friendly approach by Karthick",
     truncated: true,
   },
   {
     author: 'priya Dharshini. P',
     service: 'Haircut',
+    highlight: 'She perfectly cut the hair, at exact length I wanted',
     text: 'The service provided by Vaishnave Ma\'am was excellent. She took the time to understand my needs and provided expert consultation for my hair cut. She perfectly cut the hair, at exact length I wanted .The outcome was exactly what I hoped for, with the perfect length and style. I’m thrilled with the results. Great service!',
   },
   {
     author: 'Jai Deep (JD)',
     service: 'Hair treatments',
+    highlight: 'The staff are skilled, polite, and attentive.',
     text: 'This salon is a great place for anyone looking for quality service and a relaxing experience. The shop is clean, well-maintained, and has a pleasant atmosphere that makes you feel comfortable as soon as you walk in. The interior is neat and stylish, creating a professional yet welcoming vibe.\nThe staff are skilled, polite, and attentive. They listen carefully to what you want and give helpful suggestions when needed!!',
   },
   {
     author: 'karmala jeba',
     service: 'Hair styling & facial',
+    highlight: 'Good friendly staff...hair stylist Karthik did a gud job',
     text: 'Good friendly staff...hair stylist Karthik did a gud job with my rather scanty damaged hair pretty gud job on a middle aged woman...sure revomdation to the locals...had a gud heartwarming facial felt gud and rejuvenated...v pleased with the service...GOOD JOB GUYS keep it up😊',
   },
 ];

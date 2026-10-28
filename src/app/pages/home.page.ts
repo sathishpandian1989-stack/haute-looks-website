@@ -13,7 +13,7 @@ import { FaqComponent } from '../components/faq.component';
 import { CtaBandComponent } from '../components/cta-band.component';
 import { IntroService } from '../core/intro.service';
 import { AnalyticsService } from '../core/analytics.service';
-import { FAQS, IMAGES, PROMISES, TRANSFORMATIONS } from '../core/content';
+import { FAQS, GOOGLE_RATING, IMAGES, PROMISES, REVIEWS, TRANSFORMATIONS } from '../core/content';
 import { SITE, whatsappLink } from '../core/site.config';
 
 @Component({
@@ -45,6 +45,10 @@ export class HomePage {
   protected readonly images = IMAGES;
   protected readonly slides = [IMAGES.bridal, IMAGES.haircut, IMAGES.colour, IMAGES.smoothening];
   protected readonly active = signal(0);
+  protected readonly rating = GOOGLE_RATING;
+  protected readonly quotes = REVIEWS;
+  protected readonly quote = signal(0);
+  protected readonly five = [1, 2, 3, 4, 5];
   protected readonly promises = PROMISES;
   protected readonly faqs = FAQS.slice(0, 5);
   protected readonly transformations = TRANSFORMATIONS.slice(0, 2);
@@ -57,20 +61,34 @@ export class HomePage {
   ];
 
   private timer?: ReturnType<typeof setInterval>;
+  private quoteTimer?: ReturnType<typeof setInterval>;
+  private quotesPaused = false;
 
   constructor() {
     if (this.isBrowser) {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       effect(() => {
         if (this.intro.done() && !reduce && !this.timer) this.startAuto();
+        if (this.intro.done() && !reduce && !this.quoteTimer) {
+          this.quoteTimer = setInterval(() => {
+            if (!this.quotesPaused) this.quote.update((i) => (i + 1) % this.quotes.length);
+          }, 5000);
+        }
       });
-      inject(DestroyRef).onDestroy(() => this.stopAuto());
+      inject(DestroyRef).onDestroy(() => {
+        this.stopAuto();
+        if (this.quoteTimer) clearInterval(this.quoteTimer);
+      });
     }
   }
 
   protected goTo(i: number): void {
     this.stopAuto();
     this.active.set(i);
+  }
+
+  protected pauseQuotes(paused: boolean): void {
+    this.quotesPaused = paused;
   }
 
   protected track(name: string): void {

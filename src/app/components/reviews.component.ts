@@ -14,7 +14,7 @@ import { AnalyticsService } from '../core/analytics.service';
   imports: [IconComponent, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="section section--rule" aria-labelledby="reviews-h">
+    <section id="reviews" class="section section--rule" aria-labelledby="reviews-h">
       <div class="container">
         <div class="rv">
           <div>
