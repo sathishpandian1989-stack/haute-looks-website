@@ -39,12 +39,28 @@ import { AnalyticsService } from '../core/analytics.service';
             @if (c.image) {
               <div class="cat__img" appParallax="0.06"><app-picture [img]="c.image" sizes="(min-width: 1024px) 45vw, 100vw" /></div>
             } @else {
-              <div class="cat__emblem">
-                <app-icon [name]="c.icon" [stroke]="1" />
-                <span class="micro">Ask for the current menu</span>
+              <div class="panel on-gold">
+                <div class="panel__top">
+                  <span class="micro">{{ c.label }} · Your visit</span>
+                  <app-icon [name]="c.icon" [stroke]="1.25" />
+                </div>
+                <p class="panel__title">Care that starts with <span class="italic">your skin</span></p>
+                <ol class="panel__steps">
+                  @for (st of skinSteps; track st.t; let i = $index) {
+                    <li>
+                      <span class="panel__n">0{{ i + 1 }}</span>
+                      <span><strong>{{ st.t }}</strong>{{ st.d }}</span>
+                    </li>
+                  }
+                </ol>
+                <a class="btn btn--dark panel__cta" [href]="enquire('the skin services menu')" target="_blank" rel="noopener" (click)="track('skin menu')">
+                  <app-icon name="message-circle" /> Ask for the skin menu
+                </a>
               </div>
             }
-            <span class="cat__label micro">{{ c.label }}</span>
+            @if (c.image) {
+              <span class="cat__label micro">{{ c.label }}</span>
+            }
           </div>
           <div>
             <p class="eyebrow">{{ c.label }}</p>
@@ -137,18 +153,68 @@ import { AnalyticsService } from '../core/analytics.service';
       object-position: center 25%;
     }
     .cat__media--text {
-      display: grid;
-      place-items: center;
+      aspect-ratio: auto;
+      background: var(--color-gold);
+      color: var(--color-black);
+      border-color: var(--color-gold);
     }
-    .cat__emblem {
-      display: grid;
-      justify-items: center;
-      gap: 24px;
-      text-align: center;
+    @media (min-width: 1024px) {
+      .cat__media--text {
+        aspect-ratio: 4 / 5;
+      }
     }
-    .cat__emblem app-icon {
-      width: 120px;
-      height: 120px;
+    .panel {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding: clamp(28px, 4vw, 48px);
+    }
+    .panel__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--color-black);
+    }
+    .panel__top app-icon {
+      width: 40px;
+      height: 40px;
+    }
+    .panel__title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.4vw, 2.9rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+    .panel__steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 18px;
+    }
+    .panel__steps li {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    .panel__steps strong {
+      display: block;
+      font-weight: 700;
+    }
+    .panel__n {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-style: italic;
+      line-height: 1;
+    }
+    .panel__cta {
+      margin-top: auto;
+      align-self: flex-start;
     }
     .cat__label {
       position: absolute;
@@ -231,6 +297,11 @@ export class ServicesPage {
   protected readonly hero = IMAGES.colour;
   protected readonly categories = CATEGORIES;
   protected readonly enquire = serviceEnquiry;
+  protected readonly skinSteps = [
+    { t: 'Tell us about your skin', d: 'Share your skin type, any concerns and the occasion you’re preparing for.' },
+    { t: 'Get an honest suggestion', d: 'We recommend only the services that suit you — no pressure, no upselling.' },
+    { t: 'Know the price first', d: 'We share the price before you book, so there are no surprises.' },
+  ];
 
   protected track(service: string): void {
     this.analytics.event('whatsapp_click', { location: 'services_page', service });
