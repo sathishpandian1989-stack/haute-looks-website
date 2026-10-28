@@ -20,6 +20,9 @@
 
   @media (min-width: 1024px) {
     left: 38%;
+    // Fade the panel's left edge to transparent so no hairline seam shows on fractional-pixel widths
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 18%);
   }
 }
 
