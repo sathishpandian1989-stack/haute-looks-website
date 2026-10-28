@@ -25,6 +25,8 @@ export const IMAGES = {
   colour: { base: 'images/hair-colour', alt: 'Glossy caramel and honey toned hair colour with soft waves' },
   smoothening: { base: 'images/hair-smoothening', alt: 'Long, sleek and smooth dark hair being finished with a straightener' },
   bridal: { base: 'images/bridal', alt: 'Bride in a red embroidered saree with bridal makeup, floral bun and kundan jewellery' },
+  bridalJewellery: { base: 'images/bridal-jewellery', alt: 'Close-up of bridal kundan choker necklace and pearl drop earrings' },
+  bridalBangles: { base: 'images/bridal-bangles', alt: 'Close-up of red and gold bridal bangles on an embroidered saree' },
   team: { base: 'images/team-lead', alt: 'Karthik, founder and owner of HAUTE LOOKS, in the salon' },
 } satisfies Record<string, Img>;
 

@@ -26,16 +26,24 @@ import { SITE } from '../core/site.config';
 
     <section class="section" aria-label="Photo gallery">
       <div class="container">
-        <ul class="masonry">
-          @for (g of gallery; track g.img.base; let i = $index) {
-            <li appReveal [revealDelay]="(i % 3) * 100">
-              <button type="button" class="tile" (click)="openLightbox(g.img)" [attr.aria-label]="'View larger: ' + g.img.alt">
-                <app-picture [img]="g.img" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
-                <span class="tile__cap">
-                  <span class="micro">{{ g.tag }}</span>
-                  <app-icon name="plus" />
-                </span>
-              </button>
+        <ul class="grid">
+          @for (g of gallery; track g.tag; let i = $index) {
+            <li class="cell cell--{{ g.area }}" [class.cell--tall]="g.tall" appReveal [revealDelay]="(i % 3) * 100">
+              @if (g.img; as img) {
+                <button type="button" class="tile" (click)="openLightbox(img)" [attr.aria-label]="'View larger: ' + img.alt">
+                  <app-picture [img]="img" sizes="(min-width: 1024px) 33vw, 50vw" />
+                  <span class="tile__cap">
+                    <span class="micro">{{ g.tag }}</span>
+                    <app-icon name="plus" />
+                  </span>
+                </button>
+              } @else {
+                <a class="ig-tile on-gold" [href]="site.instagram.url" target="_blank" rel="noopener">
+                  <app-icon name="instagram" [stroke]="1.25" />
+                  <span class="ig-tile__text">See our latest looks</span>
+                  <span class="micro">{{ site.instagram.handle }}</span>
+                </a>
+              }
             </li>
           }
         </ul>
@@ -90,31 +98,83 @@ import { SITE } from '../core/site.config';
     .page-hero a {
       text-underline-offset: 4px;
     }
-    .masonry {
+    .grid {
       list-style: none;
       margin: 0;
       padding: 0;
-      columns: 1;
-      column-gap: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: clamp(170px, 42vw, 280px);
+      grid-auto-flow: dense;
+      gap: 12px;
     }
-    @media (min-width: 640px) {
-      .masonry {
-        columns: 2;
-      }
+    .cell--tall {
+      grid-row: span 2;
     }
     @media (min-width: 1024px) {
-      .masonry {
-        columns: 3;
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-rows: clamp(220px, 21vw, 300px);
+        gap: 14px;
+      }
+      .cell--a { grid-area: 1 / 1 / 3 / 2; }
+      .cell--b { grid-area: 1 / 2 / 2 / 3; }
+      .cell--c { grid-area: 1 / 3 / 3 / 4; }
+      .cell--d { grid-area: 2 / 2 / 3 / 3; }
+      .cell--e { grid-area: 3 / 1 / 5 / 2; }
+      .cell--f { grid-area: 3 / 2 / 5 / 3; }
+      .cell--g { grid-area: 3 / 3 / 4 / 4; }
+      .cell--h { grid-area: 4 / 3 / 5 / 4; }
+    }
+    .cell {
+      min-height: 0;
+    }
+    .cell--f .tile ::ng-deep img {
+      object-position: center 15%;
+    }
+    .ig-tile {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+      text-decoration: none;
+      background: var(--color-gold);
+      color: var(--color-black);
+      transition: background 0.5s var(--ease-out), color 0.5s var(--ease-out);
+    }
+    .ig-tile app-icon {
+      width: 44px;
+      height: 44px;
+    }
+    .ig-tile .micro {
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .ig-tile .micro {
+        display: block;
       }
     }
-    .masonry li {
-      break-inside: avoid;
-      margin-bottom: 14px;
+    .ig-tile__text {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      line-height: 1.1;
+    }
+    .ig-tile:hover {
+      background: var(--color-black);
+      color: var(--color-gold);
+      outline: 1px solid var(--color-gold);
+      outline-offset: -1px;
     }
     .tile {
       position: relative;
       display: block;
       width: 100%;
+      height: 100%;
       padding: 0;
       border: 1px solid var(--gold-line);
       background: none;
@@ -123,7 +183,8 @@ import { SITE } from '../core/site.config';
     }
     .tile ::ng-deep img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       transition: transform 1.2s var(--ease-out);
     }
     .tile:hover ::ng-deep img,
@@ -236,11 +297,16 @@ export class GalleryPage {
   protected readonly site = SITE;
   protected readonly hero = IMAGES.haircut;
   protected readonly transformations = TRANSFORMATIONS;
-  protected readonly gallery = [
-    { img: IMAGES.bridal, tag: 'Bridal' },
-    { img: IMAGES.haircut, tag: 'Haircut' },
-    { img: IMAGES.colour, tag: 'Hair colour' },
-    { img: IMAGES.smoothening, tag: 'Smoothening' },
+  /** Fixed editorial grid: a–h map to grid areas on desktop; tall cells span two rows on smaller screens. */
+  protected readonly gallery: { area: string; tag: string; tall: boolean; img?: Img }[] = [
+    { area: 'a', tag: 'Bridal', tall: true, img: IMAGES.bridal },
+    { area: 'b', tag: 'Haircut', tall: false, img: IMAGES.haircut },
+    { area: 'c', tag: 'Hair colour', tall: true, img: IMAGES.colour },
+    { area: 'd', tag: 'Bridal jewellery', tall: false, img: IMAGES.bridalJewellery },
+    { area: 'e', tag: 'Smoothening', tall: true, img: IMAGES.smoothening },
+    { area: 'f', tag: 'Our studio', tall: true, img: IMAGES.team },
+    { area: 'g', tag: 'Bridal details', tall: false, img: IMAGES.bridalBangles },
+    { area: 'h', tag: 'Instagram', tall: false },
   ];
   protected readonly current = signal<Img | null>(null);
   private readonly dlg = viewChild.required<ElementRef<HTMLDialogElement>>('dlg');
