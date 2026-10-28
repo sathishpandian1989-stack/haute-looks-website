@@ -6,8 +6,8 @@ import { RevealDirective } from '../shared/reveal.directive';
 import { ParallaxDirective } from '../shared/parallax.directive';
 import { BookingFormComponent } from '../components/booking-form.component';
 import { FaqComponent } from '../components/faq.component';
-import { IMAGES } from '../core/content';
-import { serviceEnquiry } from '../core/site.config';
+import { GOOGLE_RATING, IMAGES, REVIEWS } from '../core/content';
+import { SITE, serviceEnquiry } from '../core/site.config';
 
 @Component({
   selector: 'app-bridal',
@@ -73,6 +73,23 @@ import { serviceEnquiry } from '../core/site.config';
             }
           </ol>
         </div>
+      </div>
+    </section>
+
+    <section class="section section--rule" aria-label="Bride's review">
+      <div class="container">
+        <figure class="pull" appReveal>
+          <span class="pull__stars" role="img" aria-label="5 out of 5 stars">
+            @for (s of [1, 2, 3, 4, 5]; track s) {
+              <app-icon name="star" />
+            }
+          </span>
+          <blockquote>“{{ bridalReview.text }}”</blockquote>
+          <figcaption>
+            <span class="pull__name">{{ bridalReview.author }}</span>
+            <a class="micro" [href]="google" target="_blank" rel="noopener">Google review · {{ rating.score }}★ from {{ rating.count }} reviews</a>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -197,6 +214,43 @@ import { serviceEnquiry } from '../core/site.config';
     .enq .lead {
       margin-top: 24px;
     }
+    .pull {
+      margin: 0 auto;
+      max-width: 980px;
+      text-align: center;
+      display: grid;
+      justify-items: center;
+      gap: 28px;
+    }
+    .pull__stars {
+      display: inline-flex;
+      gap: 6px;
+    }
+    .pull__stars app-icon {
+      width: 22px;
+      height: 22px;
+    }
+    .pull__stars ::ng-deep svg {
+      fill: currentColor;
+    }
+    .pull blockquote {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+      line-height: 1.3;
+      font-style: italic;
+    }
+    .pull figcaption {
+      display: grid;
+      gap: 8px;
+    }
+    .pull__name {
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .pull a {
+      text-underline-offset: 4px;
+    }
     .bfaq-h {
       margin-bottom: 40px;
     }
@@ -204,6 +258,9 @@ import { serviceEnquiry } from '../core/site.config';
 })
 export class BridalPage {
   protected readonly img = IMAGES.bridal;
+  protected readonly bridalReview = REVIEWS.find((r) => r.service === 'Bridal makeup')!;
+  protected readonly rating = GOOGLE_RATING;
+  protected readonly google = SITE.googleProfileUrl;
   protected readonly wa = serviceEnquiry('bridal makeup & hair packages');
   protected readonly offer = [
     { icon: 'brush', title: 'Bridal makeup', text: 'A photo-ready look planned around your outfit, jewellery, skin and the lighting of each function.' },

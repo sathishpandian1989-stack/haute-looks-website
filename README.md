@@ -107,7 +107,7 @@ If you add a custom domain, update `SITE.url` in `site.config.ts` and the URLs i
 - [ ] Confirm the service list in `content.ts` (skin services are shown as "ask for current menu")
 - [ ] Provide the owner/lead stylist's **name** (`SITE.leader.name`) and confirm the portrait is approved
 - [ ] Supply **real before/after pairs** with written client permission. Then set `demo: false` in `TRANSFORMATIONS`. The current sliders are labelled demo previews.
-- [ ] Add **verified** Google reviews (with permission) to `reviews.component.ts`. No ratings or quotes are shown until then.
+- [x] Google reviews added (6 verbatim reviews + 4.9★ / 446 rating, Oct 2026) — update `GOOGLE_RATING` / `REVIEWS` in `content.ts` when they change
 - [ ] Confirm whether gender and age range are needed (both are optional in the form now)
 - [ ] Approve the privacy policy wording and the 12-month retention period
 - [ ] Test one real enquiry: exactly one row appears in the sheet and the owner email arrives
